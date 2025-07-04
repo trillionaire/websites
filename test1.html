@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>line-height test</title>
+  <style type="text/css">
+      .list-item-wrap {
+          height: 83.77600000000001px;
+      }
+      .list-item-wrap .left-content {
+          float: left;
+          line-height: 83.77600000000001px;
+      }
+      .content-box {
+          display: flex;
+      }
+      .content-box .left-content {
+          flex-shrink: 0;
+          flex-grow: 0;
+      }
+      .content-box .right-space {
+          flex-grow: 1;
+          flex-shrink: 1;
+      }
+  </style>
+</head>
+<body>
+    <div id="app">
+        <div class="list-container">
+            <div>
+                <div class="list-item-wrap">
+                    <div class="left-content">上行 文本</div>
+                </div>
+            </div>
+            <div>
+                <div class="content-box">
+                    <div class="left-content">下行 文本</div>
+                    <div class="right-space"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

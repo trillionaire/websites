@@ -1,1 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <script>
+    const logElement = document.querySelector("#log");
+    function log(text) {
+      logElement.innerText = `${logElement.innerText}${text}\n`;
+      logElement.scrollTop = logElement.scrollHeight;
+    }
+    
+    // 权限数组
+    const permissions = [
+      "accelerometer",
+      "accessibility-events",
+      "ambient-light-sensor",
+      "background-sync",
+      "camera",
+      "clipboard-read",
+      "clipboard-write",
+      "geolocation",
+      "gyroscope",
+      "local-fonts",
+      "magnetometer",
+      "microphone",
+      "midi",
+      "notifications",
+      "payment-handler",
+      "persistent-storage",
+      "push",
+      "screen-wake-lock",
+      "storage-access",
+      "top-level-storage-access",
+      "window-management",
+    ];
+    
+    processPermissions();
+    
+    // 遍历权限并将结果记录下来
+    async function processPermissions() {
+      for (const permission of permissions) {
+        const result = await getPermission(permission);
+        log(result);
+      }
+    }
+    
+    // 在 try...catch 块中查询单个权限并返回结果
+    async function getPermission(permission) {
+      try {
+        let result;
+        if (permission === "top-level-storage-access") {
+          result = await navigator.permissions.query({
+            name: permission,
+            requestedOrigin: window.location.origin,
+          });
+        } else {
+          result = await navigator.permissions.query({ name: permission });
+        }
+        return `${permission}：${result.state}`;
+      } catch (error) {
+        return `${permission}（不支持）`;
+      }
+    }
 
+  </script>
+</html>

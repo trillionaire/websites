@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+    <div id="log">permission query result</div>
   <script>
     const logElement = document.querySelector("#log");
     function log(text) {
@@ -41,6 +42,11 @@
         const result = await getPermission(permission);
         log(result);
       }
+
+      for (const permission of permissions) {
+        const result = await getPermissionSimple(permission);
+        log(result);
+      }
     }
     
     // 在 try...catch 块中查询单个权限并返回结果
@@ -57,7 +63,24 @@
         }
         return `${permission}：${result.state}`;
       } catch (error) {
-        return `${permission}（不支持）`;
+        return `${permission}：不支持`;
+      }
+    }
+
+    async function getPermissionSimple(permission) {
+      try {
+        let result;
+        if (permission === "top-level-storage-access") {
+          result = await navigator.permissions.query({
+            name: permission,
+            requestedOrigin: window.location.origin,
+          });
+        } else {
+          result = await navigator.permissions.query({ name: permission });
+        }
+        return `${result.state}`;
+      } catch (error) {
+        return `不支持`;
       }
     }
 
